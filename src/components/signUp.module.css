@@ -1,0 +1,34 @@
+.flex-form {
+  display: flex;
+}
+.custom-form {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  flex-direction: column;
+  line-height: 22.3151px;
+}
+.flex-image {
+  padding-left: 20px;
+  display: flex;
+  width: 50%;
+  align-items: center;
+}
+
+.submit-button,
+.reset-button {
+  font-size: 14px;
+  padding: 5px;
+}
+.reset-button {
+  margin-left: 20px;
+}
+
+.label-upload-pic {
+  cursor: pointer;
+}
+/* #upload-photo {
+  opacity: 0 !important;
+  position: absolute !important;
+  z-index: -1 !important;
+} */
