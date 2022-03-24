@@ -7,6 +7,9 @@
 .label-input {
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
+
   font-size: 14px;
+}
+.wrap-error {
+  word-wrap: break-word;
 }

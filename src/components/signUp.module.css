@@ -3,7 +3,7 @@
 }
 .custom-form {
   display: flex;
-  width: 50%;
+  width: 300px;
   justify-content: center;
   flex-direction: column;
   line-height: 22.3151px;
@@ -27,6 +27,7 @@
 .label-upload-pic {
   cursor: pointer;
 }
+
 /* #upload-photo {
   opacity: 0 !important;
   position: absolute !important;
