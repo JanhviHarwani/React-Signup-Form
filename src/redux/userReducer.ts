@@ -1,18 +1,26 @@
 import { Action, ActionType } from "./userActionType";
-// interface User {
-//   name: string;
-//   phone: number;
-//   password: string;
-//   confirmPassword: string;
-//   email: string;
-// }
+
 export interface UserState {
-  user:any;
+  user: any;
 }
 const initialValue = {
-  user: { name: "", email: "", phone: "", password: "", confirmpassword: "" },
+  user: {
+    photo: "",
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmpassword: "",
+  },
 };
-
+var removeUserData = {
+  photo: "",
+  name: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmpassword: "",
+};
 export default function userReducer(
   state: UserState = initialValue,
   action: Action
@@ -20,6 +28,11 @@ export default function userReducer(
   if (action.type === ActionType.FETCH_USER) {
     return {
       user: action.payload,
+    };
+  }
+  if (action.type === ActionType.USER_LOGOUT) {
+    return {
+      user: removeUserData,
     };
   }
   return state;
