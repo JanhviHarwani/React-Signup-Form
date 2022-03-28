@@ -17,19 +17,30 @@
 
 .submit-button,
 .reset-button {
-  font-size: 14px;
-  padding: 5px;
+  font-size: 15px;
+  padding: 8px;
 }
 .reset-button {
   margin-left: 20px;
 }
 
+.submit-button:disabled,
+.submit-button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+.wrap-error {
+  word-wrap: break-word;
+}
+.add-pic {
+  text-align: center;
+}
 .label-upload-pic {
   cursor: pointer;
 }
-
-/* #upload-photo {
+#upload-photo {
   opacity: 0 !important;
   position: absolute !important;
   z-index: -1 !important;
-} */
+}

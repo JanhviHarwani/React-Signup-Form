@@ -13,14 +13,14 @@ const initialValue = {
     confirmpassword: "",
   },
 };
-var removeUserData = {
-  photo: "",
-  name: "",
-  email: "",
-  phone: "",
-  password: "",
-  confirmpassword: "",
-};
+// var removeUserData = {
+//   photo: "",
+//   name: "",
+//   email: "",
+//   phone: "",
+//   password: "",
+//   confirmpassword: "",
+// };
 export default function userReducer(
   state: UserState = initialValue,
   action: Action
@@ -32,7 +32,8 @@ export default function userReducer(
   }
   if (action.type === ActionType.USER_LOGOUT) {
     return {
-      user: removeUserData,
+      user: initialValue.user,
+      
     };
   }
   return state;

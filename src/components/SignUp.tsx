@@ -1,30 +1,43 @@
 import formImg from "../asset/form-img.png";
 import css from "./signUp.module.css";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { userActionCreator } from "../redux/ActionCreator";
-
 import TextField from "./TextField";
 import * as Yup from "yup";
 import "yup-phone";
 import { UserState } from "../redux/userReducer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-function SignUp({LoggedInState}:any) {
- 
+import TextError from "./TextError";
+
+function SignUp({ LoggedInState }: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<File>();
+  const [fileName, setFileName] = useState<string>();
   const userData = useSelector<UserState, UserState>((state) => state.user);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is Required"),
     email: Yup.string().email("Invalid Email").required("Email is Required"),
     phone: Yup.string().phone("IN", true).required("Phone NO. is Required"),
+    photo: Yup.mixed()
+      .nullable()
+      .required("profile is required!!!")
+      .test("fileSize", "Image is too large", (value) => {
+        return !value || (value !== null && value.size <= 2000000);
+      })
+      .test("fileType", "File type should be jpg or png only", (value) => {
+        return (
+          !value ||
+          (value !== null && ["image/jpg", "image/png"].includes(value.type))
+        );
+      }),
     // password: Yup.string()
     //   .matches(
     //     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-    //     "Must Contain 8 Characters, One Uppercase,Lowercase,Number and special case"
+    //     "Must Contain 8 Characters, One Uppercase, Lowercase, Number and a special case"
     //   )
     //   .required("Password is Required"),
     // confirmpassword: Yup.string().oneOf(
@@ -34,7 +47,7 @@ function SignUp({LoggedInState}:any) {
   });
 
   const onSubmit = (values: any) => {
-    console.log(values);
+    // console.log(typeof values);
 
     if (file) {
       dispatch(
@@ -43,40 +56,45 @@ function SignUp({LoggedInState}:any) {
     }
 
     navigate("/home");
-
   };
 
   return (
     <>
-      <Link to={"/home"}>Home</Link>
       <Formik
         initialValues={userData}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
         validateOnMount
       >
-        {({ isSubmitting, isValid }) => (
+        {({ isSubmitting, isValid, setFieldValue }) => (
           <div className={css["flex-form"]}>
             <div className={css["custom-form"]}>
               <Form>
                 <h1>SignUp</h1>
-
                 <br />
-
                 <div className={css["add-pic"]}>
                   <label
                     htmlFor={css["upload-photo"]}
                     className={css["label-upload-pic"]}
                   >
-                    <span>Photo +</span>
+                    Photo +
                     <Field
-                      onChange={(event: any) => {
-                        setFile(event.currentTarget.files[0]);
+                      onChange={(event: { currentTarget: { files: any[]; }; }) => {
+                        const file = event.currentTarget.files[0];
+                        setFileName(file.name);
+                        setFieldValue("photo", file);
+                        setFile(file);
                       }}
+                      value={undefined}
                       type={"file"}
                       name="photo"
                       id={css["upload-photo"]}
-                      style={{ display: "none" }}
+                    />
+                    <p>{fileName}</p>
+                    <ErrorMessage
+                      className={css["wrap-error"]}
+                      name="photo"
+                      component={TextError}
                     />
                   </label>
                 </div>
@@ -88,7 +106,6 @@ function SignUp({LoggedInState}:any) {
                     name="email"
                     label="E-mail"
                   />
-
                   <TextField type="tel" id="phone" name="phone" label="Phone" />
                   <TextField
                     type="password"
@@ -108,7 +125,7 @@ function SignUp({LoggedInState}:any) {
                     className={`${css["submit-button"]} btn btn-primary`}
                     type="submit"
                     disabled={!isValid || isSubmitting}
-                    onClick={()=>LoggedInState(isValid)} 
+                    onClick={() => LoggedInState(isValid)}
                   >
                     Submit
                   </button>

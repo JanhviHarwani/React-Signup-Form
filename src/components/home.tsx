@@ -20,7 +20,12 @@ function Home({ LoggedInState }: any) {
       <h3>Welcome to Home page!</h3>
       <div className={css["home-container"]}>
         <div className={css["user-data"]}>
-          <img src={userData.user.photo} alt="No preview available" />
+          <img
+            height={"100px"}
+            width={"100px"}
+            src={userData.user.photo}
+            alt="No preview available"
+          />
           <p>Hello {userData.user.name}</p>
           <p>You are registered with E-mail id: {userData.user.email}</p>
           <p>And Phone number: {userData.user.phone}</p>

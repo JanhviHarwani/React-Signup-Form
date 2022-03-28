@@ -16,7 +16,9 @@
   margin-top: 10%;
 }
 .custom-css-logout {
-  padding: 7px !important;
+  font-size: 18px;
+  padding: 10px !important;
+  border-radius: 5px;
 }
 /* .user-data {
   display: flex;
