@@ -1,11 +1,21 @@
 import { Action, ActionType } from "./userActionType";
 
-export interface UserState {
-  user: any;
+export interface User {
+  photo: string|File |Blob| null;
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmpassword: string;
 }
-const initialValue = {
+
+export interface UserState {
+  user: User;
+  
+}
+const initialValue: UserState = {
   user: {
-    photo: "",
+    photo: null,
     name: "",
     email: "",
     phone: "",
@@ -13,14 +23,7 @@ const initialValue = {
     confirmpassword: "",
   },
 };
-// var removeUserData = {
-//   photo: "",
-//   name: "",
-//   email: "",
-//   phone: "",
-//   password: "",
-//   confirmpassword: "",
-// };
+
 export default function userReducer(
   state: UserState = initialValue,
   action: Action
@@ -33,7 +36,6 @@ export default function userReducer(
   if (action.type === ActionType.USER_LOGOUT) {
     return {
       user: initialValue.user,
-      
     };
   }
   return state;

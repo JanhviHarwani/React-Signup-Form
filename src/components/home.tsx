@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { UserState } from "../redux/userReducer";
 import { userActionLogOut } from "../redux/ActionCreator";
 import { useNavigate } from "react-router-dom";
-
 import css from "./home.module.css";
-function Home({ LoggedInState }: any) {
+interface HomeProps{
+  LoggedInState:(state:boolean)=>void
+}
+function Home({ LoggedInState }:HomeProps) {
   const userData = useSelector((state: UserState) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,16 +24,15 @@ function Home({ LoggedInState }: any) {
           <img
             height={"100px"}
             width={"100px"}
-            src={userData.user.photo}
+            src={userData.user!.photo!.toString()}
             alt="No preview available"
           />
-          <p>Hello {userData.user.name}</p>
-          <p>You are registered with E-mail id: {userData.user.email}</p>
-          <p>And Phone number: {userData.user.phone}</p>
+          <p>Hello {userData.user!.name}</p>
+          <p>You are registered with E-mail id: {userData.user!.email}</p>
+          <p>And Phone number: {userData.user!.phone}</p>
         </div>
       </div>
       <div className={css["logout-btn-div"]}>
-        {" "}
         <button
           type="button"
           className={`${css["custom-css-logout"]} btn btn-info`}

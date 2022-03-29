@@ -6,25 +6,26 @@ import { userActionCreator } from "../redux/ActionCreator";
 import TextField from "./TextField";
 import * as Yup from "yup";
 import "yup-phone";
-import { UserState } from "../redux/userReducer";
+import { User, UserState } from "../redux/userReducer";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+
 import TextError from "./TextError";
 
-function SignUp({ LoggedInState }: any) {
+interface SignUpProps {
+  LoggedInState: (state: boolean) => void;
+}
+function SignUp({ LoggedInState }: SignUpProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [file, setFile] = useState<File>();
-  const [fileName, setFileName] = useState<string>();
-  const userData = useSelector<UserState, UserState>((state) => state.user);
 
+  const userData = useSelector<UserState, User>((state) => state.user);
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is Required"),
     email: Yup.string().email("Invalid Email").required("Email is Required"),
-    phone: Yup.string().phone("IN", true).required("Phone NO. is Required"),
+    phone: Yup.string().phone("IN", true).required("Phone No. is Required"),
     photo: Yup.mixed()
       .nullable()
-      .required("profile is required!!!")
+      .required("Profile Pic is mandatory")
       .test("fileSize", "Image is too large", (value) => {
         return !value || (value !== null && value.size <= 2000000);
       })
@@ -45,19 +46,20 @@ function SignUp({ LoggedInState }: any) {
     //   "Passwords must match"
     // ),
   });
+  const onSubmit = (values: User) => {
 
-  const onSubmit = (values: any) => {
-    // console.log(typeof values);
 
-    if (file) {
+    if (values.photo) {
       dispatch(
-        userActionCreator({ ...values, photo: URL.createObjectURL(file) })
+        userActionCreator({
+          ...values,
+          photo: URL.createObjectURL(values.photo) ,
+        })
       );
     }
 
     navigate("/home");
   };
-
   return (
     <>
       <Formik
@@ -66,7 +68,7 @@ function SignUp({ LoggedInState }: any) {
         onSubmit={onSubmit}
         validateOnMount
       >
-        {({ isSubmitting, isValid, setFieldValue }) => (
+        {({ isSubmitting, isValid, setFieldValue, values }) => (
           <div className={css["flex-form"]}>
             <div className={css["custom-form"]}>
               <Form>
@@ -79,18 +81,18 @@ function SignUp({ LoggedInState }: any) {
                   >
                     Photo +
                     <Field
-                      onChange={(event: { currentTarget: { files: any[]; }; }) => {
+                      onChange={(event: {
+                        currentTarget: { files: any[] };
+                      }) => {
                         const file = event.currentTarget.files[0];
-                        setFileName(file.name);
                         setFieldValue("photo", file);
-                        setFile(file);
                       }}
                       value={undefined}
                       type={"file"}
                       name="photo"
                       id={css["upload-photo"]}
                     />
-                    <p>{fileName}</p>
+                    <p>{values.photo?.name}</p>
                     <ErrorMessage
                       className={css["wrap-error"]}
                       name="photo"
