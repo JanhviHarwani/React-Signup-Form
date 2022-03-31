@@ -1,39 +1,44 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Home from "./components/home";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
 import SignUp from "./components/SignUp";
 import ErrorPage from "./components/ErrorPage";
 import PrivateRoute from "./components/PrivateRoute";
+import { useDispatch, useSelector } from "react-redux";
+import UserState from "./interface/UserState";
+import User from "./interface/User";
+import { useLocalStorageState } from "./hooks/useLocalStorage";
+import { userActionCreator } from "./redux/ActionCreator";
 
 function App() {
-  const [localState, setLocalState] = useState<boolean>(false);
+  // const loginState = useSelector<UserState>((state) => state.isSubmitting);
+  // const LOCAL_STORAGE_KEY = "customLocalStorageKey";
+  const userData = useSelector<UserState, User>((state) => state.user);
+
+  const INITIAL_VALUES = userData;
+  const { getItem, setItem } = useLocalStorageState();
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if (localStorage.getItem("Logged-In-State")) {
-      setLocalState(JSON.parse(localStorage.getItem("Logged-In-State")!));
-    }
+    const userData = JSON.parse(getItem("UserProfile")!);
+    // console.log(userData)
+    userData && dispatch(userActionCreator(userData));
+
+    // setItem("Logged-In-State", JSON.stringify(loginState));
   }, []);
-  useEffect(() => {
-    window.localStorage.setItem("Logged-In-State", JSON.stringify(localState));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localState]);
 
   return (
     <Router>
       <div className="app-container">
         <Routes>
           <Route path=":name" element={<ErrorPage />} />
-          <Route path="/" element={<SignUp LoggedInState={setLocalState} />} />
-          <Route element={<PrivateRoute loginState={localState} />}>
-            <Route
-              path="/home"
-              element={<Home LoggedInState={setLocalState} />}
-            />
+          <Route
+            path="/"
+            element={<SignUp INITIAL_VALUES={INITIAL_VALUES} />}
+          />
+          <Route element={<PrivateRoute />}>
+            <Route path="/home" element={<Home />} />
           </Route>
         </Routes>
       </div>

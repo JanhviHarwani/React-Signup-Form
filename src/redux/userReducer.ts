@@ -1,18 +1,6 @@
 import { Action, ActionType } from "./userActionType";
+import UserState from "../interface/UserState";
 
-export interface User {
-  photo: string|File |Blob| null;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  confirmpassword: string;
-}
-
-export interface UserState {
-  user: User;
-  
-}
 const initialValue: UserState = {
   user: {
     photo: null,
@@ -22,20 +10,25 @@ const initialValue: UserState = {
     password: "",
     confirmpassword: "",
   },
+  isSubmitting: false,
 };
 
 export default function userReducer(
   state: UserState = initialValue,
   action: Action
-): UserState {
+): any {
   if (action.type === ActionType.FETCH_USER) {
     return {
       user: action.payload,
+      isSubmitting: action.state,
     };
   }
   if (action.type === ActionType.USER_LOGOUT) {
+    console.log("reached here");
+    console.log(action);
     return {
-      user: initialValue.user,
+      user: action.payload,
+      isSubmitting: action.state,
     };
   }
   return state;

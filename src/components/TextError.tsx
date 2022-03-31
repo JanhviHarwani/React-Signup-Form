@@ -1,7 +1,7 @@
 import React from "react";
 import css from "./TextError.module.css";
 
-function TextError({ children }: any) {
+const TextError:React.FC=({ children })=> {
   return <div className={css["error"]}>{children}</div>;
 }
 
