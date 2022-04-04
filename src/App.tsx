@@ -14,32 +14,34 @@ import { userActionCreator } from "./redux/ActionCreator";
 function App() {
   // const loginState = useSelector<UserState>((state) => state.isSubmitting);
   // const LOCAL_STORAGE_KEY = "customLocalStorageKey";
-  const userData = useSelector<UserState, User>((state) => state.user);
+  // const userData = useSelector<UserState, User>((state) => state.user);
 
-  const INITIAL_VALUES = userData;
-  const { getItem, setItem } = useLocalStorageState();
+  // const INITIAL_VALUES = userData;
+  // const { getItem, setItem } = useLocalStorageState();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const userData = JSON.parse(getItem("UserProfile")!);
-    // console.log(userData)
-    userData && dispatch(userActionCreator(userData));
+  // useEffect(() => {
+  //   console.log("localStorage got value here");
+  //   if (window.localStorage.getItem("UserProfile") != null) {
+  //     var userData = JSON.parse(localStorage.getItem("UserProfile")!);
+  //     userData && dispatch(userActionCreator(userData));
+  //   }
 
-    // setItem("Logged-In-State", JSON.stringify(loginState));
-  }, []);
+  //   // console.log(userData)
+
+  //   // setItem("Logged-In-State", JSON.stringify(loginState));
+  // }, []);
 
   return (
     <Router>
       <div className="app-container">
         <Routes>
           <Route path=":name" element={<ErrorPage />} />
-          <Route
-            path="/"
-            element={<SignUp INITIAL_VALUES={INITIAL_VALUES} />}
-          />
+          <Route path="/" element={<SignUp />} />
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
           </Route>
+          {/* <Route path="/home" element={<Home />} /> */}
         </Routes>
       </div>
     </Router>

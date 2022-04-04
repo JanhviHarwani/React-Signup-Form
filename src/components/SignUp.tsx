@@ -13,27 +13,13 @@ import UserState from "../interface/UserState";
 import User from "../interface/User";
 
 import { useEffect } from "react";
-// import { initialValue } from "../redux/userReducer";
-// const initialValuess: UserState = {
-//   user: {
-//     photo: null,
-//     name: "",
-//     email: "",
-//     phone: "",
-//     password: "",
-//     confirmpassword: "",
-//   },
-// };
 
-interface SignUpProps {
-  INITIAL_VALUES: any;
-}
-function SignUp({ INITIAL_VALUES }: SignUpProps) {
-  const { getItem, setItem, removeItem } = useLocalStorageState();
+function SignUp() {
+  // const { getItem, setItem, removeItem } = useLocalStorageState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userData = useSelector<UserState, User>((state) => state.user);
+  // const userData = useSelector<UserState, User>((state) => state.user);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is Required"),
@@ -61,74 +47,68 @@ function SignUp({ INITIAL_VALUES }: SignUpProps) {
     //   .required("Password is Required")
     //   .oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
-  useEffect(() => {
-    const userData = JSON.parse(getItem("UserProfile")!);
-    dispatch(userActionCreator(userData));
-  }, []);
+  // useEffect(() => {
+  //   if(getItem("UserProfile")){
+  //     console.log(getItem("UserProfile"))
+  //     const userData = JSON.parse(getItem("UserProfile")|| '{}');
+  //     dispatch(userActionCreator(userData));
+  //   }
+
+  // }, []);
   const onSubmit = (values: User) => {
+    const URLphoto= URL.createObjectURL(values.photo as Blob | MediaSource)
     if (values.photo) {
       dispatch(
         userActionCreator({
           user: {
             ...values,
-            photo: URL.createObjectURL(values.photo as Blob | MediaSource),
+            photo: URLphoto,
           },
           isSubmitting: true,
         })
       );
     }
-    setItem(
-      "UserProfile",
-      JSON.stringify({
-        user: {
-          ...values,
-          photo: URL.createObjectURL(values.photo as Blob | MediaSource),
-        },
-        isSubmitting: true,
-      })
-    );
+    // console.log("worked")
+    // setItem(
+    //   "UserProfile",
+    //   JSON.stringify({
+    //     user: {
+    //       ...values,
+    //       photo: URL.createObjectURL(values.photo as Blob | MediaSource),
+    //     },
+    //     isSubmitting: true,
+    //   })
+    // );
     // dispatch(
     // userActionCreator(JSON.parse(getItem("UserProfile")!)))
-    // localStorage.setItem("User-Profile", JSON.stringify(userData));
-    // localStorage.setItem("Email",values.email)
-    // localStorage.setItem("Phone",values.phone)
-    // localStorage.setItem("Password",values.password)
-    // localStorage.setItem("Confirm-Password",values.confirmpassword)
-    // localStorage.setItem("Profile-Pic",JSON.stringify(values.photo) )
+    localStorage.setItem("Name", values.name);
+    localStorage.setItem("Logged-In", "true");
+    localStorage.setItem("Email", values.email);
+    localStorage.setItem("Phone", values.phone);
+    localStorage.setItem("Password", values.password);
+    localStorage.setItem("Confirm-Password", values.confirmpassword);
+    localStorage.setItem("Profile-Pic", JSON.stringify(URLphoto));
 
     navigate("/home");
   };
 
-  // const INITIAL_VALUES = userData;
-  // const [initialValues, handleUpdateForm] = useLocalStorageState({
-  //   key: LOCAL_STORAGE_KEY,
-  //   value: INITIAL_VALUES,
-  // });
-  // useEffect(() => {
-  //   setItem("UserProfile", JSON.stringify(userData));
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  const resetValues = {
-    user: {
-      photo: null,
-      name: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmpassword: "",
-    },
+  const initialValues = {
+    photo: null,
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmpassword: "",
   };
   const handleReset = ({ resetForm }: any) => {
-    removeItem("UserProfile");
+    localStorage.removeItem("Name");
+    localStorage.removeItem("Email");
+    localStorage.removeItem("Phone");
+    localStorage.removeItem("Password");
+    localStorage.removeItem("Confirm-Password");
+    localStorage.removeItem("Profile-Pic");
 
-    // dispatch(
-    //   userActionLogOut({
-
-    //     user: JSON.parse(getItem("UserProfile")),
-    //     isSubmitting: false,
-    //   })
-    // );
+ ;
     resetForm();
   };
 
@@ -136,7 +116,7 @@ function SignUp({ INITIAL_VALUES }: SignUpProps) {
     <>
       <Formik
         enableReinitialize
-        initialValues={userData}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
         validateOnMount
@@ -144,16 +124,6 @@ function SignUp({ INITIAL_VALUES }: SignUpProps) {
         {({ isSubmitting, isValid, setFieldValue, values, resetForm }) => (
           <div className={css["flex-form"]}>
             <div className={css["custom-form"]}>
-              {/* <CustomForm
-                initialValues={initialValues}
-                isSubmitting={isSubmitting}
-                isValid={isValid}
-                setFieldValue={setFieldValue}
-                values={values}
-                resetForm={resetForm}
-                INITIAL_VALUES={INITIAL_VALUES}
-                saveForm={handleUpdateForm}
-              /> */}
               <Form>
                 <h1>SignUp</h1>
                 <br />
@@ -176,7 +146,7 @@ function SignUp({ INITIAL_VALUES }: SignUpProps) {
                       name="photo"
                       id={css["upload-photo"]}
                     />
-                    <p>{(values.photo as File)?.name}</p>
+                    <p>{(values.photo as unknown as File)?.name}</p>
                     <ErrorMessage
                       className={css["wrap-error"]}
                       name="photo"

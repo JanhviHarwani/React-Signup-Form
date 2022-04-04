@@ -21,13 +21,21 @@ function Home() {
   const userData = useSelector((state: UserState) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { getItem, setItem, removeItem } = useLocalStorageState();
+  // const { getItem, setItem, removeItem } = useLocalStorageState();
   const clickHandler = () => {
-    dispatch(userActionLogOut({ isSubmitting: true, user: resetValues }));
+    dispatch(userActionLogOut({ isSubmitting: false }));
     console.log(userData);
     navigate("/");
+    localStorage.setItem("Name", "");
+   
+    localStorage.setItem("Email", "");
+    localStorage.setItem("Phone", "");
+    localStorage.setItem("Password","");
+    localStorage.setItem("Confirm-Password", "");
+    localStorage.setItem("Profile-Pic", "");
 
-    removeItem("UserProfile");
+    localStorage.setItem("Logged-In", "false");
+  
   };
 
   return (
@@ -38,7 +46,7 @@ function Home() {
           <img
             height={"100px"}
             width={"100px"}
-            src={userData.user.photo ? userData.user.photo.toString() : ""}
+            src={userData.user.photo as string}
             alt="No preview available"
           />
           <p>
