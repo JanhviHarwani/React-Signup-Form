@@ -8,6 +8,6 @@ interface ActionCreatorProp {
 export function userActionCreator({ user, isSubmitting }: ActionCreatorProp) {
   return { type: ActionType.FETCH_USER, payload: user, state: isSubmitting };
 }
-export function userActionLogOut({ user, isSubmitting }: any) {
+export function userActionLogOut({ user, isSubmitting }: ActionCreatorProp) {
   return { type: ActionType.USER_LOGOUT, state: isSubmitting, payload: user };
 }

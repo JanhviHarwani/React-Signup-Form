@@ -12,7 +12,7 @@ interface ActionFetching {
 }
 interface ActionLogingOut {
   type: ActionType.USER_LOGOUT;
-  payload: any;
+
   state: boolean;
 }
 export type Action = ActionFetching | ActionLogingOut;

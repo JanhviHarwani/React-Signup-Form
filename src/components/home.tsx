@@ -3,39 +3,22 @@ import { userActionLogOut } from "../redux/ActionCreator";
 import { useNavigate } from "react-router-dom";
 import css from "./home.module.css";
 import UserState from "../interface/UserState";
-import { useLocalStorageState } from "../hooks/useLocalStorage";
-import { useState } from "react";
-import User from "../interface/User";
 
-const resetValues = {
-  user: {
-    photo: null,
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmpassword: "",
-  },
-};
 function Home() {
   const userData = useSelector((state: UserState) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { getItem, setItem, removeItem } = useLocalStorageState();
+
   const clickHandler = () => {
     dispatch(userActionLogOut({ isSubmitting: false }));
-    console.log(userData);
     navigate("/");
-    localStorage.setItem("Name", "");
-   
-    localStorage.setItem("Email", "");
-    localStorage.setItem("Phone", "");
-    localStorage.setItem("Password","");
-    localStorage.setItem("Confirm-Password", "");
-    localStorage.setItem("Profile-Pic", "");
-
-    localStorage.setItem("Logged-In", "false");
-  
+    localStorage.removeItem("Name");
+    localStorage.removeItem("Email");
+    localStorage.removeItem("Phone");
+    localStorage.removeItem("Password");
+    localStorage.removeItem("Confirm-Password");
+    localStorage.removeItem("Profile-Pic");
+    localStorage.removeItem("Logged-In");
   };
 
   return (
@@ -49,10 +32,7 @@ function Home() {
             src={userData.user.photo as string}
             alt="No preview available"
           />
-          <p>
-            Hello {userData.user.name ? userData.user.name : ""}
-            {/* {userData.user!.name} */}
-          </p>
+          <p>Hello {userData.user.name ? userData.user.name : ""}</p>
           <p>
             You are registered with E-mail id:{" "}
             {userData.user.email ? userData.user.email : ""}

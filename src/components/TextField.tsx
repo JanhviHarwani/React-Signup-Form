@@ -3,6 +3,7 @@ import { Field, ErrorMessage } from "formik";
 import TextError from "./TextError";
 
 interface TextFieldProps {
+  placeholder?:string;
   name: string;
   label: string;
   type: string;
