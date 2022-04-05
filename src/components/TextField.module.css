@@ -1,0 +1,15 @@
+.custom-input-css {
+  background-color: #faebd8 !important;
+  border-radius: 5px;
+  padding: 4px;
+  border: 1px solid #c3c3c361 !important;
+}
+.label-input {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 14px;
+}
+.wrap-error {
+  word-wrap: break-word;
+}

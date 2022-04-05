@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10%;
+}
+
+code {
+  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+}
