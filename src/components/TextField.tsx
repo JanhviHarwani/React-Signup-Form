@@ -1,7 +1,6 @@
 import css from "./TextField.module.css";
 import { Field, ErrorMessage } from "formik";
 import TextError from "./TextError";
-
 interface TextFieldProps {
   placeholder?:string;
   name: string;
