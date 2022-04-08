@@ -28,7 +28,7 @@ function SignUp() {
         })
       );
     }
-
+  
     localStorage.setItem("Name", values.name);
     localStorage.setItem("Logged-In", "true");
     localStorage.setItem("Email", values.email);
