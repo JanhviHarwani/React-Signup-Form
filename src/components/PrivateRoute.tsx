@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+type PrivateRouteProps={
+  path:string,
+  loginState:boolean
 
-import UserState from "../interface/UserState";
-
-function PrivateRoute() {
-  const loginState = useSelector<UserState>((state) => state.isSubmitting);
-  return loginState ? <Outlet /> : <Navigate to="/" />
+}
+function PrivateRoute({ path, loginState }: PrivateRouteProps) {
+  return loginState ? <Outlet /> : <Navigate to={path} />;
 }
 
 export default PrivateRoute;

@@ -2,12 +2,12 @@ import { Action, ActionType } from "./userActionType";
 import UserState from "../interface/UserState";
 
 const loginState = localStorage.getItem("Logged-In") === "true" ? true : false;
-const userName = localStorage.getItem("Name") ? "Name" : "";
-const email = localStorage.getItem("Email") ? "Email" : "";
-const phone = localStorage.getItem("Phone") ? "Phone" : "";
-const password = localStorage.getItem("Password") ? "Password" : "";
+const userName = localStorage.getItem("Name") ? localStorage.getItem("Name") : "";
+const email = localStorage.getItem("Email") ? localStorage.getItem("Email") : "";
+const phone = localStorage.getItem("Phone") ? localStorage.getItem("Phone") : "";
+const password = localStorage.getItem("Password") ? localStorage.getItem("Password") : "";
 const confirmPassword = localStorage.getItem("Confirm-Password")
-  ? "Confirm-Password"
+  ? localStorage.getItem("Confirm-Password")
   : "";
 const profilePic = localStorage.getItem("Profile-Pic")
   ? localStorage.getItem("Profile-Pic")
@@ -15,11 +15,11 @@ const profilePic = localStorage.getItem("Profile-Pic")
 const initialValue: UserState = {
   user: {
     photo: profilePic,
-    name: userName,
-    email: email,
-    phone: phone,
-    password: password,
-    confirmpassword: confirmPassword,
+    name: userName!,
+    email: email!,
+    phone: phone!,
+    password: password!,
+    confirmpassword: confirmPassword!,
   },
   isSubmitting: loginState,
 };
